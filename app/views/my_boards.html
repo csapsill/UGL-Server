@@ -1,0 +1,69 @@
+<h1 class="page-header">My Boards <span class="badge" id="board_count"><?php echo $board_list["count"]?></span>
+	<div class="pull-right wider-screen">
+		<button type="button" data-toggle="modal" data-target="#create_board_modal" class="btn btn-primary"><i class="fa fa-plus-square fa-fw"></i> Create</button>
+	</div>
+</h1>
+<?php
+$base = \Base::instance();
+$View = \View::instance();
+
+if ($board_list["count"] == 0) {
+	echo "<div id=\"no_board_alert\" class=\"col-md-12 text-center\"><span class=\"alert alert-info\">Oops... You don't have any boards yet... Create one?</span></div>";
+} else
+	foreach ($board_list["boards"] as $board_item) {
+		$base->set("board_item", $board_item);
+		echo $View->render("board.html");
+	}
+?>
+<div id="create_board_modal" tab-index="-1" role="dialog" class="modal fade" aria-labelledby="create_board_modalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-adaptive">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title">
+					<i class="fa fa-plus-square"></i> Create a new board
+					<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button></h3>
+			</div>
+			<form class="form-horizontal" id="create_board_form">
+				<input type="hidden" name="returnHtml" value="1" />
+				<div class="modal-body">
+					<div class="row form-group">
+						<div class="col-sm-4 col-md-3 itemLabel">Title</div>
+						<div class="col-sm-8 col-md-9">
+							<input type="text" id="title" name="title" placeholder="short and succinct" required maxlength="32" data-toggle="tooltip" data-placement="right" title="Please make it short and sensible">
+							<p class="help-block">Something like "Todo List" or "My_board-2". No more than 32 characters.</p>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-sm-4 col-md-3 itemLabel">Description</div>
+						<div class="col-sm-8 col-md-9">                     
+							<textarea id="description" name="description" maxlength="70" oninput="limitTextArea('description', 'desc_counter', 70);"></textarea>
+							<p class="help-block"><span id="desc_counter">70</span> character(s) left</p>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-sm-4 col-md-3 itemLabel">Visibility</div>
+						<div class="col-sm-8 col-md-9">
+							<p class="help-block">With whom do you want to share the board?</p>
+							<select class="selectpicker" data-live-search="true" id="group_id" name="group_id">
+								<option value="0">The board is private to myself.</option>
+								<?php
+								foreach ($me["_joined_groups"] as $key => $val) {
+									if (!$val["my_permissions"]["new_board"]) $disabled = " disabled";
+									else $disabled = "";
+									echo "<option value=\"" . $val["id"] . "\"". $disabled .">Visible to group " . $val["alias"] . ".</option>";
+								}
+								?>
+							</select>
+						</div>
+					</div>
+					<div class="row hidden text-center" id="prompt">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Create</button>
+					<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

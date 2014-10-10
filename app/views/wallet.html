@@ -1,0 +1,170 @@
+<ol class="breadcrumb">
+	<li>Home</li>
+	<?php if ($wallet_item["group_id"]) : ?><li id="group-alias"><a class="panel-link" href="/my/group/<?php echo $group_info["id"]?>"><?php echo $group_info["alias"]?></a></li><?php else :?>
+	<li><a class="panel-link" href="/my/wallets">Wallets</a></li><?php endif ?>
+	<li class="active"><?php echo $wallet_item["name"]?></li>
+</ol>
+<div class="container-fluid">
+	<div class="row">
+		<h1 class="page-header" data-id="<?php echo $wallet_item["id"]?>">
+			<?php echo $wallet_item["name"];
+			echo "<div class=\"pull-right\">";
+			echo "<a class=\"btn btn-primary\" role=\"button\" data-toggle=\"modal\" data-target=\"#edit_wallet_modal\"><i class=\"fa fa-pencil-square-o fa-fw\"></i> Edit</a> ";
+			echo "<a class=\"btn btn-default\" role=\"button\" data-toggle=\"modal\" data-target=\"#delete_wallet_modal\"><i class=\"fa fa-trash-o fa-fw\"></i> Delete</a> ";
+			echo "</div>"
+			?>
+		</h1>
+		<div class="row">
+			<div class="col-md-7"><?php echo $wallet_item["description"]?></div>
+			<div class="col-md-5">
+				<div class="table-responsive" id="content">
+					<table class="table table-striped">
+						<tbody>
+							<tr><td>Created at</td><td><?php echo $wallet_item["created_at"]?></td></tr>
+							<tr><td>Number of Records</td><td id="num_of_records"><?php echo $wallet_item["num_of_records"]?></td></tr>
+							<tr><td>Current Balance</td><td><?php echo $wallet_item["balance"]?></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<h3>Records</h3>
+		<div class="table-responsive" id="content">
+			<table class="table table-striped" id="records">
+				<thead>
+					<tr>
+						<th>Time</th>
+						<th>Category</th>
+						<th>Subcategory</th>
+						<th>Description</th>
+						<th class="col-md-1">Amount</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="records_body">
+				</tbody>
+			</table>
+			<ul id="pagination" class="pagination">
+			</ul>
+		</div>
+	</div>
+	<a name="add_new"></a>
+	<h3>new records</h3>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<form id="new_record_form" name="new_record_form">
+				<input type="hidden" name="wallet_id" value="<?php echo $wallet_item["id"]?>" />					
+				<input type="hidden" id="num_of_new_records" value="0" />
+				<thead>
+					<th>Time</th>
+					<th>Category</th>
+					<th>Subcategory</th>
+					<th>Description</th>
+					<th class="col-md-1">Amount</th>
+					<th></th>
+				</thead>
+				<tbody id="new_record_body">
+					<tr class="wallet_record" id="add_new_record">
+						<td id="created_at_td"><input type="date" class="form-control new_record_proto" name="created_at" id="created_at" size="10" maxlength="10" placeholder="Pick a date" /></td>
+						<td>
+							<select name="category" class="selectpicker new_record_proto" data-live-search="true" data-width="auto" id="new_category">
+								<optgroup label="spending">
+									<option value="regular">Regular</option>
+									<option value="occasional">Occasional</option>
+								</optgroup>
+								<optgroup label="others">
+									<option value="income">Income</option>
+									<option value="withdraw">Withdraw</option>
+									<option value="transfer">Transfer</option>
+								</optgroup>
+							</select>
+						</td>
+						<td><select name="sub_category" class="selectpicker new_record_proto" data-live-search="true" data-width="auto">
+								<option value="apparel">Apparel</option>
+								<option value="electronics">Electronics</option>
+								<option value="books">Books</option>
+								<option value="housing">Housing</option>
+								<option value="supply">Supply</option>
+								<option value="food">Food</option>
+								<option value="transport">Transport</option>
+								<option value="salary">Salary</option>
+								<option value="dividend">Dividend</option>
+								<option value="other">Other</option>
+							</select>
+						</td>
+						<td id="description_td"><input name="description" class="new_record_proto" /></td>
+						<td id="amount_td"><input type="number" step=".01" name="amount" id="amount" class="new_record_proto" size="7" placeholder="0.00" value="" /> </td>
+						<td id="actions_td"><!--<i class="fa fa-trash-o cursor-pointer" onclick="deleteNewRecord(this)"></i>--></td>
+					</tr>
+					<tr>
+						<td colspan="6" class="text-right">
+							<!--
+							<input type="button" onclick="addNewRecord()" class="btn btn-primary" value="More rows" />
+							-->
+							<span class="hidden" id="response"></span>&nbsp;
+							<button type="submit" class="btn btn-success"><i class="fa fa-plus fa-fw"></i> Add</button>
+						</td>
+					</tr>
+				</tbody>
+			</form>
+		</table>
+	</div>
+</div>
+<div id="edit_wallet_modal" tab-index="-1" role="dialog" class="modal fade" aria-labelledby="edit_wallet_modalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-adaptive">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title">
+					<i class="fa fa-pencil-square-o"></i> Edit wallet
+					<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button></h3>
+			</div>
+			<form class="form-horizontal" id="edit_wallet_form">
+				<input type="hidden" name="returnHtml" value="1" />
+				<div class="modal-body">
+					<div class="row form-group">
+						<div class="col-sm-4 col-md-3 itemLabel">Name</div>
+						<div class="col-sm-8 col-md-9">
+							<input type="text" id="name" name="name" placeholder="short and succinct" required maxlength="32" data-toggle="tooltip" data-placement="right" value="<?php echo $wallet_item["name"]?>" title="Please make it short and sensible">
+							<p class="help-block">Something like "General Expenses" or "My_wallet-2014". No more than 32 characters.</p>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-sm-4 col-md-3 itemLabel">Description</div>
+						<div class="col-sm-8 col-md-9">                     
+							<textarea id="description" name="description" maxlength="70" oninput="limitTextArea('description', 'desc_counter', 150);"><?php echo $wallet_item["description"]?></textarea>
+							<p class="help-block"><span id="desc_counter"><?php echo 150 - strlen($wallet_item["description"])?></span> character(s) left</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="pull-left text-center hidden" id="prompt">
+					</div>
+					<button class="btn btn-primary" type="submit">Create</button>
+					<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="delete_wallet_modal" tab-index="-1" role="dialog" class="modal fade" aria-labelledby="delete_wallet_modalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="fa fa-times"></i></button>
+				<h3 class="modal-title"><i class="fa fa-trash-o"></i> Delete Wallet</h3>
+			</div>
+			<form class="form-horizontal" id="delete_wallet_form">
+				<input type="hidden" name="wallet_id" value="<?php echo $wallet_item["id"]?>" />
+				<div class="modal-body">
+					<div class="callout callout-warning"><h4>Confirmation</h4><p>Deleting the wallet will also delete all its associated records. Proceed?</p></div>
+					<div class="hidden text-center" id="form_prompt">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Proceed</button>
+					<button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

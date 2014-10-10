@@ -1,0 +1,132 @@
+<?php
+$menu_list = array(
+	"dashboard" => array("fa-home", "Home", ""),
+	"groups" => array("fa-users", "Groups", ""),
+	"boards" => array("fa-comments", "Boards", ""),
+	"items" => array("fa-book", "Items", ""),
+	"wallets" => array("fa-credit-card", "Wallets", ""),
+	"settings" => array("fa-cogs", "Settings", ""),
+);
+$menu_list[$panel][2] = " active";
+?><!DOCTYPE html>
+<html lang="en">
+	<head>
+		<base href="<?php echo $SCHEME.'://'.$HOST.':'.$PORT.$BASE.'/'; ?>" />
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title><?php echo ucfirst($panel)?> | Ugl</title>
+		<link rel="dns-prefetch" href="//cdnjs.cloudflare.com/">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="assets/css/animate.min.css" />
+		<link rel="stylesheet" href="assets/css/usercp.theme.css" />
+		<link rel="stylesheet" href="assets/css/bootstrap-select.min.css" />
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" />
+		<!--[if lt IE 9]>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body>
+		<header class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/my/dashboard">UGLi Dashboard</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+								<div class="avatar"><img id="my_avatar" alt="Avatar" src="<?php echo empty($me["avatar_url"]) ? "assets/img/default-avatar.png" : $me["avatar_url"];?>"></div>
+								<div class="user">
+									<span class="hello">Welcome!</span>
+									<span class="name"><?php echo $me["first_name"] . " " . $me["last_name"]?></span>
+								</div>
+							</a>
+							<ul class="user-menu pull-right dropdown-menu">
+								<li><a href="#"><i class="fa fa-user"></i> Profile </a></li>
+								<li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+								<li class="divider"></li>
+								<li><a href="/" onclick="logOut();"><i class="fa fa-sign-out"></i> Logout</a></li>
+							</ul>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-right">
+						<input type="text" class="form-control" placeholder="Search...">
+					</form>
+				</div>
+			</div>
+		</header>
+		
+		<div class="container-fluid sidebar" id="touch-sidebar">
+			<div class="row nav nav-sidebar">
+				<div class="col-xs-12 col-sm-12">
+					<ul class="nav nav-sidebar">
+						<?php
+						foreach ($menu_list as $key => $val)
+							echo "<li><a class=\"" . $key . "-li" . $val[2] . "\" href=\"/my/" . $key . "\"><i class=\"fa ". $val[0] ." fa-3x\"></i></a></li>";?>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container-fluid">
+			<div class="row">
+				<div class="sidebar wide-sidebar" id="wide-sidebar">
+					<ul class="nav nav-sidebar">
+						<?php
+						foreach ($menu_list as $key => $val)
+							echo "<li><a class=\"" . $key . "-li" . $val[2] . "\" href=\"/my/" . $key . "\"><i class=\"fa ". $val[0] ." fa-3x\"></i><br />" . $val[1] . "</a></li>";?>
+					</ul>
+				</div>
+				<div id="main">
+					<?php
+						if (isset($sub_panel)){
+							echo $this->render($sub_panel . '.html');
+						} else if (isset($panel))
+							echo $this->render('my_' . $panel . '.html');
+						else echo "Loading...";
+					?>
+				</div>
+			</div>
+		</div>
+		<?php
+		if (isset($rt_notification_modal)){
+			echo "<script type=\"text/javascript\">\n" .
+					"		var show_notif_modal = true;\n" .
+					"		var notif_modal_type = \"" . $rt_notification_modal["type"] . "\";\n" .
+					"		var notif_modal_title = \"" . $rt_notification_modal["title"] . "\";\n" .
+					"		var notif_modal_msg = \"" . $rt_notification_modal["message"] . "\";\n" .
+				"	</script>\n";
+		}
+		?>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/lazyload/2.0.3/lazyload-min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src="assets/js/holder.js"></script>
+		<script src="assets/js/jquery.crypto.js"></script>
+		<script src="assets/js/jquery.mousewheel.js"></script>
+		<script src="assets/js/usercp.js"></script>
+		<script src="assets/js/bootstrap-select.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.49/jquery.form.min.js"></script>
+		<script src="assets/js/jquery.twbsPagination.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.5.0/summernote-bs3.css" />
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.5.0/summernote.css" />
+		<script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.5.0/summernote.min.js"></script>
+		<!--
+		<link rel="stylesheet" type="text/css" href="/minify/css?files=animate.min.css,usercp.theme.css,bootstrap-select.min.css" />
+		<script type="text/javascript" src="/minify/js?files=bootstrap.min.js,jquery.crypto.js,jquery.mousewheel.js,holder.js,usercp.js,bootstrap-select.min.js"></script>
+		-->
+	</body>
+</html>

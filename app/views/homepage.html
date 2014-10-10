@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<base href="<?php echo $SCHEME.'://'.$HOST.':'.$PORT.$BASE.'/'; ?>" />
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title><?php echo $page_title?></title>
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="assets/css/homepage.theme.css" rel="stylesheet" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" />
+	<!--[if lt IE 9]>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<header class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><i class="fa fa-home"></i> Home</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<form class="navbar-form navbar-right" role="form" method="post" action="/api/login" id="nav-login">
+					<div class="form-group">
+						<input type="email" id="nav-login-email" name="email" value="" placeholder="Email" class="form-control" data-placement="bottom" data-trigger="manual" title="Please enter a valid email address">
+					</div>
+					<div class="form-group">
+						<input type="password" id="nav-login-pass" name="password" placeholder="Password" value="" class="form-control" data-placement="bottom" data-trigger="manual" title="Password must be at least characters">
+					</div>
+					<button type="submit" id="nav-login-btn" class="btn btn-success" data-placement="bottom" data-trigger="click">Sign in</button>
+				</form>
+			</div><!--/.navbar-collapse -->
+		</div>
+    </header>
+	
+	<div class="jumbotron">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7" id="welcome-panel">
+					<div class="row">
+						<h1>Welcome!</h1>
+						<p><strong>Unified Group Life</strong> (or &quot;<em>UGLi</em>&quot; in short) is 
+						a project that aims to simplify group life in a light-weight app that helps users 
+						manage tasks, funds, and items as a team.
+						</p>
+					</div>
+					<div class="row">
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4">
+					<div class="panel panel-primary" id="join-panel">
+						<div class="panel-heading">
+							<div class="pull-right"><a href="#" data-toggle="modal" data-target="#forgot_password_modal">Forget password?</a></div>
+							<h3 class="panel-title">Join UGLi</h3>
+						</div>
+						<div class="panel-body form-signin" id="register-panel">
+							<div class="main">
+								<div class="row">
+									<h3>Sign in with</h3>
+									<div class="col-xs-3 col-sm-3 col-md-3 text-center">
+										<a id="fb-icon" href="/oauth/facebook"><i class="fa fa-facebook-square fa-3x"></i></a>
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 text-center">
+										<a id="gplus-icon" href="/oauth/google"><i class="fa fa-google-plus-square fa-3x"></i></a>
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 text-center">
+										<a id="ms-icon" href="/oauth/live"><i class="fa fa-windows fa-3x"></i></a>
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 text-center">
+										<a id="github-icon" href="/oauth/github"><i class="fa fa-github fa-3x"></i></a>
+									</div>
+								</div>
+								<div class="login-or">
+									<hr class="hr-or" />
+									<span class="span-or">or</span>
+								</div>
+								<form class="form-signin" role="form" method="post" action="/api/register" id="register-form">
+									<div class="row">
+										<div class="col-xs-12 col-sm-6 col-md-6 form-group">
+											<input type="text" name="first_name" id="reg_first_name" class="form-control" placeholder="First Name" tabindex="1" data-placement="bottom" data-trigger="manual" title="Please enter your first name" autofocus required />
+										</div>
+										<div class="col-xs-12 col-sm-6 col-md-6 form-group">
+											<input type="text" name="last_name" id="reg_last_name" class="form-control" placeholder="Last Name" tabindex="2" data-placement="bottom" data-trigger="manual" title="Please enter your last name" required />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-12 form-group">
+											<input type="email" name="email" id="reg_email" class="form-control" placeholder="Email address" tabindex="3" data-placement="bottom" data-trigger="manual" title="Please enter an email address" required />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-12 form-group text-center">
+											<input type="password" name="password" id="reg_password" class="form-control firstInput" placeholder="Password" tabindex="4" data-placement="bottom" data-trigger="manual" title="Password must be at least 6 characters" required />
+											<input type="password" name="confirm_pass" id="reg_confirm_pass" class="form-control lastInput" placeholder="Confirm password" data-placement="bottom" data-trigger="manual" title="Confirm password must match password" tabindex="5" required />
+											<input type="checkbox" name="agree" id="reg_agree" value="true" tabindex="6" data-placement="bottom" data-trigger="manual" title="Please read the user agreement and make sure you agree with the terms"> I agree to the terms of services.
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12">
+											<button class="btn btn-lg btn-success btn-block" id="reg_submit" type="submit" tabindex="7">Create my Account</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h2><i class="fa fa-users fa-2x"></i> Groups</h2>
+				<p class="lead">Ask your friends, dormmates, teammates, or whoever share similar interests with you to join a group and start a different social life immediately. </p>
+				<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+			</div>
+			<div class="col-md-6">
+				<h2><i class="fa fa-list-alt fa-2x"></i> Stickyboards</h2>
+				<p class="lead">Use Stickyboards to post tasks, take notes, set reminders, or simply share information to the group. </p>
+				<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+			</div>
+		</div>
+		<hr class="featurette-divider" />
+		<div class="row">
+			<div class="col-md-4">
+				<h2 class="text-center"><i class="fa fa-tasks fa-2x"></i> Tasks</h2>
+				<p class="lead">Keep track of your group tasks and discuss them with other group members, all in one place.</p>
+				<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+			</div>
+			<div class="col-md-4">
+				<h2 class="text-center"><i class="fa fa-book fa-2x"></i> Manage Items</h2>
+				<p class="lead">Remind your forgetful friend if you lend out your headphones, or keep a record for yourself. </p>
+				<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+			</div>
+			<div class="col-md-4">
+				<h2 class="text-center"><i class="fa fa-credit-card fa-2x"></i> Wallet</h2>
+				<p class="lead">Manage public funds, keep track of income and expense, and generate diagrams in one place. You also have a private wallet.</p>
+				<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid" id="footer">
+
+		<div class="row">
+
+			<div class="col-md-1">
+			</div>
+				
+			<div class="col-md-7">
+				<h3>Service</h3>
+				<p>Terms of Service</p>
+				<p>Privacy Policy</p>
+				<p>Contact Us</p>
+			</div>
+			
+			<div class="col-md-4 pull-right">
+				<h3>Project UGLi <small><?php echo $APP_VERSION?></small></h3>
+				<p>&copy; Purdue University 2014 <br />
+				1016 W Stadium Ave, West Lafayette, IN 47906</p>
+				<p><?php 
+					echo Base::instance()->format('Exec time: {0} ms / Memory: {1} KiB', round(1e3*(microtime(TRUE)-$TIME),2), round(memory_get_usage(TRUE)/1e3,1)); ?>
+				</p>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div id="forgot_password_modal" tab-index="-1" role="dialog" class="modal fade" aria-labelledby="forgot_password_modalLabel" aria-hidden="true">
+		<form id="forgot_password_form">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						<h3 class="modal-title">Forgot Password</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<h4>Please enter the email of your account:</h4>
+							<input type="email" name="email" id="rst_email" class="form-control" placeholder="Email address" tabindex="3" data-placement="bottom" data-trigger="manual" title="Please enter an email address" required />
+						</div>
+						<div id="rst_result" style="display:none;"></div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="submit">Proceed</button>
+						<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<?php
+		if (isset($rt_notification_modal)){
+			echo "<script type=\"text/javascript\">\n" .
+					"		var show_notif_modal = true;\n" .
+					"		var notif_modal_type = \"" . $rt_notification_modal["type"] . "\";\n" .
+					"		var notif_modal_title = \"" . $rt_notification_modal["title"] . "\";\n" .
+					"		var notif_modal_msg = \"" . $rt_notification_modal["message"] . "\";\n" .
+				"	</script>\n";
+		}
+	?>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/jquery.crypto.js"></script>
+	<script src="assets/js/homepage.js"></script>
+</body>
+</html>
