@@ -3,7 +3,7 @@
  * Model.php
  *
  * The base model class
- * @author	Xiangyu Bu
+ * @author	Adam Sill
  * @date	Mar 16, 2014
  */
 
