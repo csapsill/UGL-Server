@@ -5,7 +5,7 @@
  * The base controller class
  * Controllers work with models to render views
  *
- * @author	Xiangyu Bu
+ * @author	Adam Sill
  * @date	Mar 03, 2014
  */
 
